@@ -96,35 +96,28 @@ class PostController extends Controller
         ], 200);
     }
 
-    public function like(string $id) {
-        $post = Post::find($id);
+    public function like(string $post_id) {
+       $like = Like::where('user_id', auth()->user()->id)->where('post_id', $post_id)->first();
 
-        if (!post) {
-            return response([
-                'message' => 'Post not found'
 
-            ]);
-        }
-
-        Like::create([
-            'user_id' => auth()->user()->id,
-            'post_id' => $id
-        ]);
-
-        return $this->index();
-    }
-
-    public function unlike(string $id) {
-        $like = Like::find($id);
-
-        if (!$like) {
-            return response([
-                'message' => 'Like not found'
-            ]);
-        }
-
+       if($like) {
         $like->delete();
-
         return $this->index();
+       }
+
+       $post = Post::find($post_id);
+
+       if(!$post) {
+        return response([
+            'message' => 'Post not found'
+        ]);
+       }
+
+       Like::create([
+        'user_id' => auth()->user()->id,
+        'post_id' => $post_id
+       ]);
+
+       return $this->index();
     }
 }
