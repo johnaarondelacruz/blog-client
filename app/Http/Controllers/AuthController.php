@@ -26,7 +26,7 @@ class AuthController extends Controller
             'password' => bcrypt($fields['password']),
         ]);
 
-        $token = $user->createToken('qwerty')->plainTextToken;
+        $token = $user->createToken('p455w0rd')->plainTextToken;
 
         return response([
             'user' => $user,
@@ -47,7 +47,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $token = $user->createToken('qwerty')->plainTextToken;
+        $token = $user->createToken('p455w0rd')->plainTextToken;
 
         return response([
             'user' => $user,
