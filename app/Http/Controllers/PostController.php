@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Post;
 use App\Models\Like;
+use App\Models\Comment;
 use App\Http\Resources\TimelineResource;
 
 class PostController extends Controller
@@ -15,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return TimelineResource::collection(Post::orderBy('created_at', 'desc')->get());
+        return TimelineResource::collection(Post::orderBy('created_at', 'desc')->paginate(10));
     }
 
     /**
@@ -119,5 +120,20 @@ class PostController extends Controller
        ]);
 
        return $this->index();
+    }
+
+
+    public function comment(Request $request, string $post_id) {
+        $fields = $request->validate([
+            'content' => 'required|string'
+        ]);
+
+        Comment::create([
+            'user_id' => auth()->user()->id,
+            'post_id' => $post_id,
+            'content' => $fields['content']
+        ]);
+
+        return $this->index();
     }
 }

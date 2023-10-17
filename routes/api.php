@@ -33,6 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 // Like
     Route::post('/posts/like/{post_id}', [PostController::class, 'like']);
 
+// Comment
+    Route::post('/comment/{post_id}', [PostController::class, 'comment']);
+
 // Logout
     Route::post('/logout', [AuthController::class, 'logout']);
 
