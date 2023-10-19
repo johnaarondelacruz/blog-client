@@ -15,7 +15,7 @@ class Category extends Model
     protected $fillable = [
         'user_id',
         'post_id',
-        'category_name'
+        'category_name',
     ];
 
     public function post(): BelongsTo {
