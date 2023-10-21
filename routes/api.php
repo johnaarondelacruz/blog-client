@@ -24,6 +24,11 @@ Route::post('/login', [AuthController::class, 'login']);
 // Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function() {
 
+// Category
+    Route::post('/category/{post_id}', [PostController::class, 'category']);
+    Route::put('/category/{post_id}', [PostController::class, 'categoryUpdate']);
+    Route::delete('/category/{post_id}', [PostController::class, 'categoryDelete']);
+
 // Posts
     Route::get('/posts', [PostController::class, 'index']);
     Route::post('/posts', [PostController::class, 'store']);

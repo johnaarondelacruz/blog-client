@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
+use App\Models\Category;
 use App\Http\Resources\TimelineResource;
 
 class PostController extends Controller
@@ -135,5 +136,56 @@ class PostController extends Controller
         ]);
 
         return $this->index();
+    }
+
+    public function category(Request $request, string $post_id) {
+        $fields = $request->validate([
+            'category_name' => 'required|string'
+        ]);
+
+        Category::create([
+            'post_id' => $post_id,
+            'category_name' => $fields['category_name']
+            ]);
+            return response([
+                'message' => 'Category Created'
+        ]);
+    }
+    public function categoryDelete(Request $request, string $post_id) {
+        $category = Category::find($post_id);
+
+        if (!$category) {
+            return response([
+                'message' => 'Post not found'
+            ], 404);
+        }
+
+        $category->delete();
+
+        return response([
+            'message' => 'Post Deleted'
+        ], 200);
+    }
+
+    public function categoryUpdate(Request $request, string $post_id) {
+        $category = Category::find($post_id);
+
+        if (!$category) {
+            return response([
+                'message' => 'Post not found'
+            ], 404);
+        }
+
+        $fields = $request->validate([
+            'category_name' => 'required',
+        ]);
+
+        $category->update([
+            'category_name' => $fields['category_name'],
+        ]);
+
+        return response ([
+            'message' => 'Post Updated'
+        ], 201);
     }
 }

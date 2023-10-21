@@ -10,7 +10,6 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\User;
-use App\Models\Tag;
 
 class Post extends Model
 {
@@ -31,9 +30,6 @@ class Post extends Model
 
     public function categories(): HasMany {
         return $this->hasMany(Category::class)->orderBy('created_at', 'asc');;
-    }
-    public function tags(): HasMany {
-        return $this->hasMany(Tag::class)->orderBy('created_at', 'asc');;
     }
     public function user(): BelongsTo {
         return $this->belongsTo(User::class)->orderBy('created_at', 'asc');
