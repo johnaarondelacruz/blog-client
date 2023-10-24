@@ -19,7 +19,8 @@ use App\Http\Controllers\PostController;
 // Auth - Public Routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts/{id}', [PostController::class, 'show']);
 
 // Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function() {
@@ -30,7 +31,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::delete('/category/{post_id}', [PostController::class, 'categoryDelete']);
 
 // Posts
-    Route::get('/posts', [PostController::class, 'index']);
+    
     Route::post('/posts', [PostController::class, 'store']);
     Route::put('/posts/{id}', [PostController::class, 'update']);
     Route::delete('/posts/{id}', [PostController::class, 'destroy']);
